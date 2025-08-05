@@ -48,7 +48,6 @@ from ..models.llm_request import LlmRequest
 from ..models.llm_response import LlmResponse
 from ..models.registry import LLMRegistry
 from ..planners.base_planner import BasePlanner
-from ..tools.agent_tool import AgentTool
 from ..tools.base_tool import BaseTool
 from ..tools.base_tool import ToolConfig
 from ..tools.base_toolset import BaseToolset
@@ -58,7 +57,6 @@ from ..utils.feature_decorator import working_in_progress
 from .base_agent import BaseAgent
 from .base_agent_config import BaseAgentConfig
 from .callback_context import CallbackContext
-from .common_configs import CodeConfig
 from .invocation_context import InvocationContext
 from .llm_agent_config import LlmAgentConfig
 from .readonly_context import ReadonlyContext
@@ -502,12 +500,6 @@ class LlmAgent(BaseAgent):
       raise ValueError(
           f'Invalid config for agent {self.name}: if output_schema is set,'
           ' sub_agents must be empty to disable agent transfer.'
-      )
-
-    if self.tools:
-      raise ValueError(
-          f'Invalid config for agent {self.name}: if output_schema is set,'
-          ' tools must be empty'
       )
 
   @field_validator('generate_content_config', mode='after')
