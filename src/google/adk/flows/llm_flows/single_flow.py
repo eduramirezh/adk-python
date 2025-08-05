@@ -14,10 +14,13 @@
 
 """Implementation of single flow."""
 
+from __future__ import annotations
+
 import logging
 
 from . import _code_execution
 from . import _nl_planning
+from . import _output_schema_processor
 from . import basic
 from . import contents
 from . import identity
@@ -50,8 +53,13 @@ class SingleFlow(BaseLlmFlow):
         # Code execution should be after the contents as it mutates the contents
         # to optimize data files.
         _code_execution.request_processor,
+        # Output schema processor add system instruction and set_model_response
+        # when both output_schema and tools are present.
+        _output_schema_processor.request_processor,
     ]
     self.response_processors += [
+        # Output schema processor extracts the structured response
+        _output_schema_processor.response_processor,
         _nl_planning.response_processor,
         _code_execution.response_processor,
     ]

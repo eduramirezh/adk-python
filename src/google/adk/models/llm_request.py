@@ -89,6 +89,8 @@ class LlmRequest(BaseModel):
         declarations.append(declaration)
         self.tools_dict[tool.name] = tool
     if declarations:
+      if self.config.tools is None:
+        self.config.tools = []
       self.config.tools.append(types.Tool(function_declarations=declarations))
 
   def set_output_schema(self, base_model: type[BaseModel]) -> None:

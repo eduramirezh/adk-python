@@ -50,7 +50,8 @@ class _BasicLlmRequestProcessor(BaseLlmRequestProcessor):
         if agent.generate_content_config
         else types.GenerateContentConfig()
     )
-    if agent.output_schema:
+    # Only set output_schema if no tools are specified.
+    if agent.output_schema and not agent.tools:
       llm_request.set_output_schema(agent.output_schema)
 
     llm_request.live_connect_config.response_modalities = (
